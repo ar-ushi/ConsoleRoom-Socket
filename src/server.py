@@ -38,20 +38,22 @@ while True:
 
             user = recv_msgs(client_socket)
             if user is False:
+            
                 continue #client disconnected hence ignore
             sockets_list.append(client_socket)
             clients[client_socket] = user
 
-            print("Connected to a new user {} from {}".format(user['data'].decode('utf-8'),client_address[0]))
+            print(f"Connected to a new user from username:{user['data'].decode('utf-8')} from {client_address[0]} : {client_address[1]}")
         else:
             message = recv_msgs(notify_socket)
+
             if message is False:
-                print("Connection was closed from {}".format(clients[notify_socket]['data'].decode('utf-8')))
+                print(f"Connection was closed from {clients[notify_socket]['data'].decode('utf-8')}")
                 sockets_list.remove(notify_socket)
                 del clients[notify_socket]
                 continue
-            user =  clients(notify_socket)
-            print("Recieved message from {} : {}".format({user['data'].decode('utf-8')},{message['data'].decode('utf-8')}))
+            user =  clients[notify_socket]
+            print(f"Recieved message from {user['data'].decode('utf-8')} : {message['data'].decode('utf-8')}")
 
             for client_socket in clients:
                 if client_socket != notify_socket:
